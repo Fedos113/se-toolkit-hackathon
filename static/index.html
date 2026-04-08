@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Countdown Timer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⏰ Event Countdown Timer</h1>
+            <p class="subtitle">Track your important events in real-time</p>
+        </header>
+
+        <section class="add-event-form">
+            <h2>Add New Event</h2>
+            <form id="event-form">
+                <div class="form-group">
+                    <label for="event-title">Event Title</label>
+                    <input 
+                        type="text" 
+                        id="event-title" 
+                        name="title" 
+                        placeholder="e.g., Product Launch" 
+                        required
+                        maxlength="100"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="event-datetime">Date & Time</label>
+                    <input 
+                        type="datetime-local" 
+                        id="event-datetime" 
+                        name="target_datetime" 
+                        required
+                    >
+                </div>
+                <button type="button" id="add-event-btn" class="btn-primary">Add Event</button>
+            </form>
+            <div id="form-message" class="message hidden"></div>
+        </section>
+
+        <section class="events-list">
+            <h2>Your Events</h2>
+            <div id="events-container">
+                <p class="empty-state">No events yet. Add your first event above!</p>
+            </div>
+        </section>
+    </div>
+
+    <script src="/static/app.js?v=3"></script>
+</body>
+</html>

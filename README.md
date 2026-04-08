@@ -1,95 +1,136 @@
 # Event Countdown Timer
 
-A lightweight web app that turns important dates into live visual countdowns and triggers browser notifications so you never miss a deadline.
+A real-time event countdown timer with desktop notifications, built with FastAPI and vanilla JavaScript.
 
-## Product Context
+## Product Definition
 
-### End Users
-- **Students** tracking exam dates, assignment deadlines, and project milestones
-- **Remote workers** managing deliverables and meeting schedules
-- **Event coordinators** monitoring event start times and preparation deadlines
-
-### Problem
-Important dates get buried in calendars or notes, causing last-minute panic or missed deadlines due to lack of visual urgency and timely alerts.
-
-### Solution
-A lightweight web app that turns important dates into live visual countdowns and triggers browser notifications so you never miss a deadline.
+| Item | Description |
+|------|-------------|
+| **End-User** | Students, professionals, anyone who tracks deadlines and events |
+| **Problem** | People miss important events because they forget to check calendars or don't get timely reminders |
+| **One-Liner** | "A web page where you add events, watch live countdowns, and get desktop notifications when they arrive" |
+| **Core Feature** | Real-time live countdown display (days/hours/minutes/seconds) with automatic desktop notifications |
 
 ## Features
 
-### Implemented
-- ✅ Create, view, and delete events with target dates
-- ✅ Real-time countdown display synced to server time
-- ✅ Browser push notifications when countdown reaches zero
-- ✅ Persistent event storage using SQLite
-- ✅ Clean, responsive dashboard UI
-- ✅ Background scheduler to prevent duplicate notifications
+### Version 1 - Core MVP
+- ✅ Add events with title and target date/time
+- ✅ Real-time countdown display (days, hours, minutes, seconds)
+- ✅ Delete events
+- ✅ Persistent storage with SQLite
+- ✅ Clean, responsive UI
 
-### Not Yet Implemented
-- 🔲 Event sharing via unique public URLs
-- 🔲 Edit existing events
-- 🔲 Service Worker support for background notifications
-- 🔲 Email notification fallback
-- 🔲 PostgreSQL migration
-- 🔲 User authentication and multi-user support
-- 🔲 Rate limiting and retry logic
+### Version 2 - Notifications & Polish
+- ✅ Desktop push notifications when events start
+- ✅ Background scheduler for reliable notification delivery
+- ✅ Visual state changes as events approach (color shifts)
+- ✅ Server-client time synchronization
+- ✅ Responsive design for mobile/desktop
+- ✅ Notification state tracking in database
 
-## Usage
+## Tech Stack
 
-1. **Start the application** (see Deployment section below)
-2. **Open your browser** and navigate to `http://localhost:8000`
-3. **Add a new event** by entering a title and selecting the target date/time
-4. **Watch the countdown** update in real-time on your dashboard
-5. **Allow browser notifications** when prompted to receive alerts when events start
-6. **Delete events** you no longer need to track
+| Component | Technology |
+|-----------|------------|
+| Backend | Python + FastAPI |
+| Database | SQLite |
+| Scheduler | APScheduler |
+| Frontend | Vanilla HTML/CSS/JS |
 
-## Deployment
+## Installation
 
-### Operating System
-- **Ubuntu 24.04 LTS** (recommended, matching university VMs)
-- Also compatible with Windows and macOS
-
-### Prerequisites
-- Python 3.10 or higher
-- pip (Python package manager)
-- A modern web browser (Chrome, Firefox, or Edge recommended for notifications)
-
-### Step-by-Step Deployment Instructions
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd se-toolkit-hackathon
-   ```
-
-2. **Install Python dependencies**
+1. **Install Python dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Configure the application**
-   - The app uses SQLite by default (no additional configuration needed)
-   - Database file will be created automatically on first run
-
-4. **Start the backend server**
+2. **Configure environment (optional):**
    ```bash
-   uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+   cp .env.example .env
    ```
+   Edit `.env` to customize host, port, or database path.
 
-5. **Access the application**
-   - Open your browser and navigate to `http://localhost:8000`
-   - On first visit, you'll be prompted to allow browser notifications - click "Allow"
+## Running the Application
 
-6. **(Optional) Run in production mode**
-   ```bash
-   uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
-   ```
+Start the FastAPI server:
 
-### Production Deployment (Render/Railway)
-1. Push your code to a GitHub repository
-2. Connect to Render or Railway
-3. Set build command: `pip install -r requirements.txt`
-4. Set start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-5. Deploy and access via the provided HTTPS URL
+```bash
+uvicorn main:app --reload --host 127.0.0.1 --port 8000
+```
 
-> **Note:** HTTPS is required for browser notifications to work in production.
+The app will be available at: **http://localhost:8000**
+
+## Usage
+
+1. Open http://localhost:8000 in your browser
+2. (Optional) Click "Enable Desktop Notifications" to allow browser notifications
+3. Add an event:
+   - Enter an event title
+   - Select a future date and time
+   - Click "Add Event"
+4. Watch the live countdown timer
+5. Get notified when the event starts!
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | Serve the main page |
+| GET | `/server-time` | Get current server time (UTC) |
+| GET | `/events` | List all events |
+| POST | `/events` | Create a new event |
+| GET | `/events/{id}` | Get event by ID |
+| DELETE | `/events/{id}` | Delete an event |
+
+### Request/Response Examples
+
+**Create Event:**
+```json
+POST /events
+{
+  "title": "Product Launch",
+  "target_datetime": "2026-04-08T15:30:00"
+}
+```
+
+**Response:**
+```json
+{
+  "id": 1,
+  "title": "Product Launch",
+  "target_datetime": "2026-04-08T15:30:00",
+  "created_at": "2026-04-08T10:00:00",
+  "user_session_id": "session_abc123",
+  "notified": false
+}
+```
+
+## Demo Script (3 minutes)
+
+1. Start the application and open http://localhost:8000
+2. Enable desktop notifications when prompted
+3. Add an event 3 minutes in the future
+4. Show the countdown timer ticking down
+5. Wait for the notification to fire at exactly 00:00:00
+6. Demonstrate event deletion and page refresh persistence
+
+## Project Structure
+
+```
+se-toolkit-hackathon/
+├── main.py              # FastAPI application and routes
+├── database.py          # SQLite database operations
+├── scheduler.py         # APScheduler background tasks
+├── requirements.txt     # Python dependencies
+├── events.db           # SQLite database (auto-created)
+├── static/
+│   ├── index.html      # Main HTML page
+│   ├── style.css       # Styles
+│   └── app.js          # Frontend JavaScript
+├── .env.example        # Environment template
+└── README.md           # This file
+```
+
+## License
+
+MIT License - see LICENSE file for details.

@@ -303,26 +303,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     setInterval(updateCountdowns, 1000);
 
     // Check for notification support
+    const notifBtn = document.getElementById('notification-btn');
+    const notifStatus = document.getElementById('notification-status');
+    
     if ('Notification' in window) {
         if (Notification.permission === 'granted') {
             notificationPermissionGranted = true;
+            if (notifBtn) notifBtn.style.display = 'none';
+            if (notifStatus) notifStatus.textContent = '✅ Notifications enabled!';
+            if (notifStatus) notifStatus.style.display = 'block';
         } else if (Notification.permission === 'default') {
-            // Add notification permission button
-            const formSection = document.querySelector('.add-event-form');
-            const messageEl = document.getElementById('form-message');
-            
-            const btn = document.createElement('button');
-            btn.id = 'notification-btn';
-            btn.className = 'notification-permission';
-            btn.textContent = '🔔 Enable Desktop Notifications';
-            btn.onclick = requestNotificationPermission;
-            formSection.insertBefore(btn, messageEl);
-
-            const status = document.createElement('div');
-            status.id = 'notification-status';
-            status.className = 'notification-status';
-            status.textContent = 'Enable notifications to get alerted when events start';
-            formSection.insertBefore(status, messageEl);
+            // Show notification permission button
+            if (notifBtn) {
+                notifBtn.style.display = 'block';
+                notifBtn.onclick = requestNotificationPermission;
+            }
+            if (notifStatus) notifStatus.style.display = 'block';
+        } else {
+            // Permission denied
+            if (notifBtn) notifBtn.style.display = 'none';
+            if (notifStatus) {
+                notifStatus.textContent = '❌ Notifications blocked by browser. Check browser settings to enable.';
+                notifStatus.style.display = 'block';
+            }
+        }
+    } else {
+        // Browser doesn't support notifications
+        if (notifBtn) notifBtn.style.display = 'none';
+        if (notifStatus) {
+            notifStatus.textContent = '⚠️ Your browser does not support desktop notifications';
+            notifStatus.style.display = 'block';
         }
     }
 

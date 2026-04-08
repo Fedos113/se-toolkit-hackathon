@@ -5,7 +5,10 @@
       "Bash(cp *)",
       "Bash(mkdir *)",
       "Bash(touch *)",
-      "Read(//home/fedor/Desktop/shit/SET/**)"
+      "Read(//home/fedor/Desktop/shit/SET/**)",
+      "Bash(python3 *)",
+      "Bash(source *)",
+      "Bash(pip install *)"
     ]
   },
   "$version": 3

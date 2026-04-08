@@ -62,18 +62,6 @@ def create_event(title: str, target_datetime: str, user_session_id: Optional[str
     return event
 
 
-def get_all_events() -> List[Dict]:
-    """Retrieve all events from the database."""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM events ORDER BY target_datetime ASC")
-    events = [dict(row) for row in cursor.fetchall()]
-
-    conn.close()
-    return events
-
-
 def get_events_by_session_id(user_session_id: str) -> List[Dict]:
     """Retrieve all events for a specific user session."""
     conn = get_db_connection()
@@ -82,6 +70,22 @@ def get_events_by_session_id(user_session_id: str) -> List[Dict]:
     cursor.execute(
         "SELECT * FROM events WHERE user_session_id = ? ORDER BY target_datetime ASC",
         (user_session_id,)
+    )
+    events = [dict(row) for row in cursor.fetchall()]
+
+    conn.close()
+    return events
+
+
+def get_unnotified_past_events_by_session_id(user_session_id: str) -> List[Dict]:
+    """Get events for a specific user that have passed but haven't been notified yet."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    now = datetime.utcnow().isoformat()
+    cursor.execute(
+        "SELECT * FROM events WHERE target_datetime <= ? AND notified = 0 AND user_session_id = ? ORDER BY target_datetime ASC",
+        (now, user_session_id)
     )
     events = [dict(row) for row in cursor.fetchall()]
 
@@ -141,22 +145,6 @@ def update_event_notified(event_id: int) -> bool:
     affected = cursor.rowcount
     conn.close()
     return affected > 0
-
-
-def get_unnotified_past_events() -> List[Dict]:
-    """Get events that have passed but haven't been notified yet."""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    
-    now = datetime.utcnow().isoformat()
-    cursor.execute(
-        "SELECT * FROM events WHERE target_datetime <= ? AND notified = 0 ORDER BY target_datetime ASC",
-        (now,)
-    )
-    events = [dict(row) for row in cursor.fetchall()]
-    
-    conn.close()
-    return events
 
 
 # Initialize database on module import

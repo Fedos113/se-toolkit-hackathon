@@ -66,6 +66,7 @@
 | **Backend** | APScheduler integration | Background scanning for notification triggers |
 | **Client** | Browser Notification API | Desktop push notifications when events start |
 | **Database** | Add `notified` flag + `user_session_id` | Track notification state and prepare for future auth |
+| **Session Management** | User session isolation | Events scoped to individual browser sessions via localStorage-generated session IDs |
 
 ### Implementation Steps
 
@@ -86,6 +87,14 @@
   - `user_session_id` (TEXT, nullable)
   - `notified` (BOOLEAN DEFAULT 0)
 - [x] Update CRUD operations to handle new fields
+- [x] Implement `get_events_by_session_id()` to filter events by user session
+- [x] Update `/events` GET endpoint to accept `user_session_id` query parameter
+
+#### 3.5 Session Management
+- [x] Generate unique session ID per browser (stored in `localStorage`)
+- [x] Send session ID when creating events
+- [x] Filter event list by session ID on fetch
+- [x] Ensure users only see their own events
 
 #### 4. Frontend Improvements
 - [x] Add visual state changes as event approaches (color shifts)

@@ -62,14 +62,26 @@ def create_event(title: str, target_datetime: str, user_session_id: Optional[str
     return event
 
 
+def get_events_by_session_id(user_session_id: str) -> List[Dict]:
+    """Retrieve all events for a specific user session."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM events WHERE user_session_id = ? ORDER BY target_datetime ASC", (user_session_id,))
+    events = [dict(row) for row in cursor.fetchall()]
+
+    conn.close()
+    return events
+
+
 def get_all_events() -> List[Dict]:
     """Retrieve all events from the database."""
     conn = get_db_connection()
     cursor = conn.cursor()
-    
+
     cursor.execute("SELECT * FROM events ORDER BY target_datetime ASC")
     events = [dict(row) for row in cursor.fetchall()]
-    
+
     conn.close()
     return events
 

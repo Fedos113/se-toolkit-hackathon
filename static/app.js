@@ -27,7 +27,8 @@ function initDOMElements() {
 // API Functions
 async function fetchEvents() {
     try {
-        const response = await fetch('/events');
+        const sessionId = getSessionId();
+        const response = await fetch(`/events?user_session_id=${encodeURIComponent(sessionId)}`);
         if (!response.ok) throw new Error('Failed to fetch events');
         events = await response.json();
         renderEvents();

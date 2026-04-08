@@ -28,6 +28,15 @@ A real-time event countdown timer with desktop notifications, built with FastAPI
 - ✅ Responsive design for mobile/desktop
 - ✅ Notification state tracking in database
 
+### Not Yet Implemented (Roadmap)
+- 🔲 User authentication and multi-user accounts
+- 🔲 Recurring events (daily, weekly, monthly)
+- 🔲 Email/SMS notification support
+- 🔲 Event categories and color coding
+- 🔲 Export events to iCal / Google Calendar
+- 🔲 Timezone selection per event
+- 🔲 Event sharing via public links
+
 ## Tech Stack
 
 | Component | Technology |
@@ -60,6 +69,12 @@ uvicorn main:app --reload --host 127.0.0.1 --port 8000
 
 The app will be available at: **http://localhost:8000**
 
+## Demo
+
+![Event Countdown Timer - Main UI](screenshots/demo.png)
+
+*The main interface showing event creation, live countdowns, and desktop notification controls.*
+
 ## Usage
 
 1. Open http://localhost:8000 in your browser
@@ -70,6 +85,104 @@ The app will be available at: **http://localhost:8000**
    - Click "Add Event"
 4. Watch the live countdown timer
 5. Get notified when the event starts!
+
+## Deployment
+
+### Target Environment
+
+| Item | Requirement |
+|------|-------------|
+| **OS** | Ubuntu 24.04 LTS (or any Linux distribution with Python 3.10+) |
+| **Architecture** | x86_64 / ARM64 |
+
+### Prerequisites
+
+Ensure the following are installed on the VM:
+
+- **Python 3.10+** — `sudo apt install python3 python3-pip python3-venv`
+- **Git** — `sudo apt install git`
+- **(Optional) Docker & Docker Compose** — for containerised deployment
+
+### Option A — Manual Deployment (pip)
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/<your-username>/se-toolkit-hackathon.git
+   cd se-toolkit-hackathon
+   ```
+
+2. **Create and activate a virtual environment:**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Configure environment (optional):**
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` to customise host, port, or database path.
+
+5. **Start the application:**
+   ```bash
+   uvicorn main:app --host 0.0.0.0 --port 8000
+   ```
+
+6. **(Optional) Run as a systemd service for production:**
+   Create `/etc/systemd/system/event-timer.service`:
+   ```ini
+   [Unit]
+   Description=Event Countdown Timer
+   After=network.target
+
+   [Service]
+   Type=simple
+   User=ubuntu
+   WorkingDirectory=/home/ubuntu/se-toolkit-hackathon
+   ExecStart=/home/ubuntu/se-toolkit-hackathon/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+   Restart=always
+
+   [Install]
+   WantedBy=multi-user.target
+   ```
+   Then enable and start:
+   ```bash
+   sudo systemctl daemon-reload
+   sudo systemctl enable --now event-timer
+   ```
+
+### Option B — Docker Deployment
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/<your-username>/se-toolkit-hackathon.git
+   cd se-toolkit-hackathon
+   ```
+
+2. **Build and run with Docker Compose:**
+   ```bash
+   docker compose up -d --build
+   ```
+
+   Or with plain Docker:
+   ```bash
+   docker build -t event-countdown-timer .
+   docker run -d -p 8000:8000 --name event-timer event-countdown-timer
+   ```
+
+3. **Verify the container is running:**
+   ```bash
+   docker ps
+   ```
+
+### Post-Deployment
+
+The app will be accessible at **http://&lt;vm-ip&gt;:8000**. If you place it behind a reverse proxy (e.g., Nginx), configure it to forward traffic to port 8000.
 
 ## API Endpoints
 

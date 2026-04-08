@@ -66,10 +66,25 @@ def get_all_events() -> List[Dict]:
     """Retrieve all events from the database."""
     conn = get_db_connection()
     cursor = conn.cursor()
-    
+
     cursor.execute("SELECT * FROM events ORDER BY target_datetime ASC")
     events = [dict(row) for row in cursor.fetchall()]
-    
+
+    conn.close()
+    return events
+
+
+def get_events_by_session_id(user_session_id: str) -> List[Dict]:
+    """Retrieve all events for a specific user session."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM events WHERE user_session_id = ? ORDER BY target_datetime ASC",
+        (user_session_id,)
+    )
+    events = [dict(row) for row in cursor.fetchall()]
+
     conn.close()
     return events
 
@@ -90,10 +105,26 @@ def delete_event(event_id: int) -> bool:
     """Delete an event by ID."""
     conn = get_db_connection()
     cursor = conn.cursor()
-    
+
     cursor.execute("DELETE FROM events WHERE id = ?", (event_id,))
     conn.commit()
-    
+
+    affected = cursor.rowcount
+    conn.close()
+    return affected > 0
+
+
+def delete_event_by_session_id(event_id: int, user_session_id: str) -> bool:
+    """Delete an event by ID only if it belongs to the specified user session."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM events WHERE id = ? AND (user_session_id = ? OR user_session_id IS NULL)",
+        (event_id, user_session_id)
+    )
+    conn.commit()
+
     affected = cursor.rowcount
     conn.close()
     return affected > 0

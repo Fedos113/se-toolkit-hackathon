@@ -66,6 +66,7 @@
 | **Backend** | APScheduler integration | Background scanning for notification triggers |
 | **Client** | Browser Notification API | Desktop push notifications when events start |
 | **Database** | Add `notified` flag + `user_session_id` | Track notification state and prepare for future auth |
+| **Security** | User session isolation | Each user only sees and manages their own events via session-based filtering |
 
 ### Implementation Steps
 
@@ -103,8 +104,15 @@
   3. Wait for notification to fire at exactly 00:00:00
   4. Demonstrate event deletion and page refresh persistence
 
+#### 6. User Session Isolation
+- [x] Implement session-based event filtering in database layer
+- [x] Update API endpoints to accept `user_session_id` query parameter
+- [x] Frontend automatically sends session ID with all requests
+- [x] Users can only view and delete their own events
+- [x] Session ID stored in localStorage for persistence across page reloads
+
 ### V2 Deliverable
-✅ Fully functional localhost web app with live countdowns, desktop notifications, and reliable background scheduling. Ready for TA demo.
+✅ Fully functional localhost web app with live countdowns, desktop notifications, reliable background scheduling, and user session isolation. Ready for TA demo.
 
 ---
 

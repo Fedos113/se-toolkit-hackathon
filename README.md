@@ -27,6 +27,7 @@ A real-time event countdown timer with desktop notifications, built with FastAPI
 - ✅ Server-client time synchronization
 - ✅ Responsive design for mobile/desktop
 - ✅ Notification state tracking in database
+- ✅ **User session isolation** - Each user only sees and manages their own events via session-based filtering
 
 
 ## Tech Stack
@@ -182,10 +183,10 @@ The app will be accessible at **http://&lt;vm-ip&gt;:8000**. If you place it beh
 |--------|----------|-------------|
 | GET | `/` | Serve the main page |
 | GET | `/server-time` | Get current server time (UTC) |
-| GET | `/events` | List all events |
+| GET | `/events` | List all events (optionally filtered by `user_session_id` query param) |
 | POST | `/events` | Create a new event |
 | GET | `/events/{id}` | Get event by ID |
-| DELETE | `/events/{id}` | Delete an event |
+| DELETE | `/events/{id}` | Delete an event (optionally requires `user_session_id` for authorization) |
 
 ### Request/Response Examples
 

@@ -27,7 +27,8 @@ function initDOMElements() {
 // API Functions
 async function fetchEvents() {
     try {
-        const response = await fetch('/events');
+        const sessionId = getSessionId();
+        const response = await fetch(`/events?user_session_id=${sessionId}`);
         if (!response.ok) throw new Error('Failed to fetch events');
         events = await response.json();
         renderEvents();
@@ -67,7 +68,8 @@ async function createEvent(title, targetDatetime) {
 
 async function deleteEvent(eventId) {
     try {
-        const response = await fetch(`/events/${eventId}`, {
+        const sessionId = getSessionId();
+        const response = await fetch(`/events/${eventId}?user_session_id=${sessionId}`, {
             method: 'DELETE'
         });
 

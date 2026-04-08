@@ -1,0 +1,115 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{beaver}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{qrcode}
+\usepackage{hyperref}
+\usepackage{fontawesome5}
+
+\title[Event Countdown Timer]{Event Countdown Timer}
+\subtitle{A real-time event countdown with desktop notifications}
+\author{Fedor Kozhevnikov}
+\institute[Uni]{Innopolis University \\ \texttt{f.kozhevnikov@innopolis.university} \\ Group: CSE-04}
+\date{\today}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% Slide 2: Context
+\begin{frame}{Context}
+    \begin{block}{End-User}
+        Students, professionals, and anyone who tracks deadlines and events
+    \end{block}
+
+    \begin{block}{Problem}
+        People miss important events because they forget to check calendars or don't get timely reminders
+    \end{block}
+
+    \begin{block}{Product One-Liner}
+        \centering
+        \textit{``A web page where you add events, watch live countdowns, and get desktop notifications when they arrive''}
+    \end{block}
+\end{frame}
+
+% Slide 3: Implementation
+\begin{frame}{Implementation}
+    \small
+    \setlength{\itemsep}{0pt}
+    \setlength{\parskip}{0pt}
+
+    \textbf{Tech Stack:} Python + FastAPI, SQLite, APScheduler, Vanilla HTML/CSS/JS
+
+    \vspace{0.1cm}
+
+    \begin{block}{Version 1 -- Core MVP}
+        \begin{itemize}
+            \item Add/delete events with title and target date/time
+            \item Real-time countdown (days, hours, minutes, seconds)
+            \item Persistent storage via SQLite
+            \item Clean, responsive UI
+        \end{itemize}
+    \end{block}
+
+    \begin{block}{Version 2 -- Notifications \& Polish}
+        \begin{itemize}
+            \item Desktop push notifications on event start
+            \item Background scheduler for reliable delivery
+            \item Visual state changes (color shifts) as events approach
+            \item Server-client time synchronization
+            \item User session isolation (private event views)
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+% Slide 4: Demo (placeholder)
+\begin{frame}{Demo}
+    \begin{center}
+        \vspace{1cm}
+        {\Huge \textbf{Demo}}
+
+        \vspace{0.5cm}
+        {\Large Pre-recorded video demonstration of Version 2}
+
+        \vspace{1cm}
+        \textit{[Insert your 2-minute video with voice-over here]}
+    \end{center}
+\end{frame}
+
+% Slide 5: Links
+\begin{frame}{Links}
+    \begin{center}
+        % First Column: GitHub Repository
+        \begin{minipage}[t]{0.45\textwidth}
+            \centering
+            \textbf{GitHub Repository}
+
+            \vspace{0.2cm}
+            \href{https://github.com/Fedos113/se-toolkit-hackathon}{\texttt{github.com/Fedos113/se-toolkit-hackathon}}
+
+            \vspace{0.3cm}
+            \qrcode[height=3cm]{https://github.com/Fedos113/se-toolkit-hackathon}
+        \end{minipage}
+        \hfill
+        % Second Column: Deployed Product
+        \begin{minipage}[t]{0.45\textwidth}
+            \centering
+            \textbf{Deployed Product (Latest Version)}
+
+            \vspace{0.2cm}
+            \href{http://10.93.25.224:8000}{\texttt{http://10.93.25.224:8000}}
+
+            \vspace{0.3cm}
+            % Note: Removed duplicate 'http://' in the QR code data which was present in your original snippet
+            \qrcode[height=3cm]{http://10.93.25.224:8000}
+        \end{minipage}
+    \end{center}
+\end{frame}
+
+\end{document}

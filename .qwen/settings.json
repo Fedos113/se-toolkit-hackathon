@@ -4,9 +4,8 @@
       "Bash(docker-compose *)",
       "Bash(cp *)",
       "Bash(mkdir *)",
-      "Bash(git rm *)",
-      "Bash(git commit *)",
-      "Bash(git *)"
+      "Bash(touch *)",
+      "Read(//home/fedor/Desktop/shit/SET/**)"
     ]
   },
   "$version": 3

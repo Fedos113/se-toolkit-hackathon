@@ -309,18 +309,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else if (Notification.permission === 'default') {
             // Add notification permission button
             const formSection = document.querySelector('.add-event-form');
+            const messageEl = document.getElementById('form-message');
+            
             const btn = document.createElement('button');
             btn.id = 'notification-btn';
             btn.className = 'notification-permission';
             btn.textContent = '🔔 Enable Desktop Notifications';
             btn.onclick = requestNotificationPermission;
-            formSection.insertBefore(btn, formSection.querySelector('.message'));
+            formSection.insertBefore(btn, messageEl);
 
             const status = document.createElement('div');
             status.id = 'notification-status';
             status.className = 'notification-status';
             status.textContent = 'Enable notifications to get alerted when events start';
-            formSection.insertBefore(status, formSection.querySelector('.message'));
+            formSection.insertBefore(status, messageEl);
         }
     }
 

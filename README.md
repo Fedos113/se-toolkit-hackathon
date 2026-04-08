@@ -28,14 +28,6 @@ A real-time event countdown timer with desktop notifications, built with FastAPI
 - ✅ Responsive design for mobile/desktop
 - ✅ Notification state tracking in database
 
-### Not Yet Implemented (Roadmap)
-- 🔲 User authentication and multi-user accounts
-- 🔲 Recurring events (daily, weekly, monthly)
-- 🔲 Email/SMS notification support
-- 🔲 Event categories and color coding
-- 🔲 Export events to iCal / Google Calendar
-- 🔲 Timezone selection per event
-- 🔲 Event sharing via public links
 
 ## Tech Stack
 

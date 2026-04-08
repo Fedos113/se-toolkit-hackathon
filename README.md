@@ -25,18 +25,9 @@ A real-time event countdown timer with desktop notifications, built with FastAPI
 - ✅ Background scheduler for reliable notification delivery
 - ✅ Visual state changes as events approach (color shifts)
 - ✅ Server-client time synchronization
-- ✅ User session isolation (events are scoped to individual browser sessions)
 - ✅ Responsive design for mobile/desktop
 - ✅ Notification state tracking in database
 
-### Not Yet Implemented (Roadmap)
-- 🔲 User authentication and multi-user accounts
-- 🔲 Recurring events (daily, weekly, monthly)
-- 🔲 Email/SMS notification support
-- 🔲 Event categories and color coding
-- 🔲 Export events to iCal / Google Calendar
-- 🔲 Timezone selection per event
-- 🔲 Event sharing via public links
 
 ## Tech Stack
 
@@ -191,7 +182,7 @@ The app will be accessible at **http://&lt;vm-ip&gt;:8000**. If you place it beh
 |--------|----------|-------------|
 | GET | `/` | Serve the main page |
 | GET | `/server-time` | Get current server time (UTC) |
-| GET | `/events` | List events (filtered by user session if `user_session_id` provided) |
+| GET | `/events` | List all events |
 | POST | `/events` | Create a new event |
 | GET | `/events/{id}` | Get event by ID |
 | DELETE | `/events/{id}` | Delete an event |

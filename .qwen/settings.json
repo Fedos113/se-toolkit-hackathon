@@ -3,7 +3,10 @@
     "allow": [
       "Bash(docker-compose *)",
       "Bash(cp *)",
-      "Bash(mkdir *)"
+      "Bash(mkdir *)",
+      "Bash(git rm *)",
+      "Bash(git commit *)",
+      "Bash(git *)"
     ]
   },
   "$version": 3

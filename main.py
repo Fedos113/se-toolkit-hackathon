@@ -3,7 +3,7 @@ Event Countdown Timer - Main Application
 FastAPI backend with static file serving and API endpoints.
 """
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -74,13 +74,10 @@ async def get_server_time():
 
 
 @app.get("/events", response_model=list[EventResponse])
-async def list_events(user_session_id: Optional[str] = Query(None)):
-    """Retrieve all events for a specific user session, or all events if no session ID provided."""
+async def list_events():
+    """Retrieve all events."""
     try:
-        if user_session_id:
-            events = database.get_events_by_session_id(user_session_id)
-        else:
-            events = database.get_all_events()
+        events = database.get_all_events()
         return events
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
